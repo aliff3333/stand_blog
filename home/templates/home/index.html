@@ -75,12 +75,12 @@
                         {% if request.user.is_authenticated %}
                             <div class="d-flex">
                                 <a class="nav-link" href="/">{{ request.user.username }}</a>
-                                <a href="/logout"><span class="badge badge-danger m-2">LogOut</span></a>
+                                <a href="{% url 'account:logout' %}"><span class="badge badge-danger m-2">LogOut</span></a>
                             </div>
                         {% else %}
                             <div class="d-flex">
-                            <a class="nav-link" href="/login">LogIn</a><span class="mt-2">/</span>
-                            <a class="nav-link" href="/register">Register</a>
+                            <a class="nav-link" href="{% url 'account:login' %}">LogIn</a><span class="mt-2">/</span>
+                            <a class="nav-link" href="{% url 'account:register' %}">Register</a>
                             </div>
                         {% endif %}
                     </li>
