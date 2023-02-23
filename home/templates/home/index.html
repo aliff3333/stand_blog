@@ -74,13 +74,21 @@
                     <li class="nav-item">
                         {% if request.user.is_authenticated %}
                             <div class="d-flex">
-                                <a class="nav-link" href="/">{{ request.user.username }}</a>
+                                {% if user.profile.image %}
+                                    <img src="{{ user.profile.image.url }}" alt=""
+                                         style="width: 35px; height: 35px; border-radius: 100%">
+                                {% else %}
+                                    <img src="{% static 'images/comment-author-01.jpg' %}" alt=""
+                                         style="width: 35px; height: 35px; border-radius: 100%">
+                                {% endif %}
+                                <a class="nav-link" href="/">{{ user.username }}</a>
                                 <a href="{% url 'account:logout' %}"><span class="badge badge-danger m-2">LogOut</span></a>
                             </div>
                         {% else %}
                             <div class="d-flex">
-                            <a class="nav-link" href="{% url 'account:login' %}">LogIn</a><span class="mt-2">/</span>
-                            <a class="nav-link" href="{% url 'account:register' %}">Register</a>
+                                <a class="nav-link" href="{% url 'account:login' %}">LogIn</a><span
+                                    class="mt-2">/</span>
+                                <a class="nav-link" href="{% url 'account:register' %}">Register</a>
                             </div>
                         {% endif %}
                     </li>
@@ -97,21 +105,21 @@
         <div class="owl-banner owl-carousel">
             {% for article in articles %}
                 <div class="item">
-                <img src="{{ article.image.url }}" alt="{{ article.title }}">
-                <div class="item-content">
-                    <div class="main-content">
-                        <div class="meta-category">
-                            <span>{{ article.category.first.title }}</span>
+                    <img src="{{ article.image.url }}" alt="{{ article.title }}">
+                    <div class="item-content">
+                        <div class="main-content">
+                            <div class="meta-category">
+                                <span>{{ article.category.first.title }}</span>
+                            </div>
+                            <a href="post-details.html"><h4>{{ article.title }}</h4></a>
+                            <ul class="post-info">
+                                <li><a href="#">{{ article.author.username }}</a></li>
+                                <li><a href="#">{{ article.created.date }}</a></li>
+                                <li><a href="#">12 Comments</a></li>
+                            </ul>
                         </div>
-                        <a href="post-details.html"><h4>{{ article.title }}</h4></a>
-                        <ul class="post-info">
-                            <li><a href="#">{{ article.author.username }}</a></li>
-                            <li><a href="#">{{ article.created.date }}</a></li>
-                            <li><a href="#">12 Comments</a></li>
-                        </ul>
                     </div>
                 </div>
-            </div>
             {% endfor %}
         </div>
     </div>
@@ -150,40 +158,40 @@
                     <div class="row">
                         {% for article in articles %}
                             <div class="col-lg-12">
-                            <div class="blog-post">
-                                <div class="blog-thumb">
-                                    <img src="{{ article.image.url }}" alt="">
-                                </div>
-                                <div class="down-content">
-                                    <span>Lifestyle</span>
-                                    <a href="post-details.html"><h4>{{ article.title }}</h4></a>
-                                    <ul class="post-info">
-                                        <li><a href="#">{{ article.author.username }}</a></li>
-                                        <li><a href="#">{{ article.created.date }}</a></li>
-                                        <li><a href="#">12 Comments</a></li>
-                                    </ul>
-                                    <p>{{ article.body }}</p>
-                                    <div class="post-options">
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <ul class="post-tags">
-                                                    <li><i class="fa fa-tags"></i></li>
-                                                    <li><a href="#">Beauty</a>,</li>
-                                                    <li><a href="#">Nature</a></li>
-                                                </ul>
-                                            </div>
-                                            <div class="col-6">
-                                                <ul class="post-share">
-                                                    <li><i class="fa fa-share-alt"></i></li>
-                                                    <li><a href="#">Facebook</a>,</li>
-                                                    <li><a href="#"> Twitter</a></li>
-                                                </ul>
+                                <div class="blog-post">
+                                    <div class="blog-thumb">
+                                        <img src="{{ article.image.url }}" alt="">
+                                    </div>
+                                    <div class="down-content">
+                                        <span>Lifestyle</span>
+                                        <a href="post-details.html"><h4>{{ article.title }}</h4></a>
+                                        <ul class="post-info">
+                                            <li><a href="#">{{ article.author.username }}</a></li>
+                                            <li><a href="#">{{ article.created.date }}</a></li>
+                                            <li><a href="#">12 Comments</a></li>
+                                        </ul>
+                                        <p>{{ article.body }}</p>
+                                        <div class="post-options">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <ul class="post-tags">
+                                                        <li><i class="fa fa-tags"></i></li>
+                                                        <li><a href="#">Beauty</a>,</li>
+                                                        <li><a href="#">Nature</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="col-6">
+                                                    <ul class="post-share">
+                                                        <li><i class="fa fa-share-alt"></i></li>
+                                                        <li><a href="#">Facebook</a>,</li>
+                                                        <li><a href="#"> Twitter</a></li>
+                                                    </ul>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
                         <div class="col-lg-12">
                             <div class="main-button">
