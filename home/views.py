@@ -3,5 +3,6 @@ from blog.models import Article
 
 
 def home(request):
-    articles = Article.objects.all()
-    return render(request, 'home/index.html', context={'articles': articles})
+    articles = Article.article_manager.published()
+    recent_articles = Article.article_manager.published().order_by('-created', '-updated')[:3]
+    return render(request, 'home/index.html', context={'articles': articles, 'recent_articles': recent_articles})
