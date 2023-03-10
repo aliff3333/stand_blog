@@ -19,8 +19,8 @@ class Category(models.Model):
 
 class Article(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    category = models.ManyToManyField(Category)
-    title = models.CharField(max_length=100, )
+    category = models.ManyToManyField(Category, related_name='articles')
+    title = models.CharField(max_length=100)
     body = models.TextField()
     image = models.ImageField(upload_to='images/articles')
     created = models.DateTimeField(auto_now_add=True)
@@ -41,3 +41,4 @@ class Article(models.Model):
 
     def __str__(self):
         return f"{self.title} | {self.body[:30]}"
+
