@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Article, Category
+from django.core.paginator import Paginator
 
 
 def article_details(request, slug):
@@ -10,11 +11,17 @@ def article_details(request, slug):
 
 def articles_list(request):
     articles = Article.article_manager.published()
-    return render(request, 'blog/articles_list.html', context={'articles': articles, 'title': 'List of Articles'})
+    page_number = request.GET.get('page')
+    paginator = Paginator(articles, 2)
+    objects_list = paginator.get_page(page_number)
+    return render(request, 'blog/articles_list.html', context={'articles': objects_list, 'title': 'List of Articles'})
 
 
 def category_details(request, pk=None):
     category = get_object_or_404(Category, id=pk)
     category_articles = category.articles.all()
+    page_number = request.GET.get('page')
+    paginator = Paginator(category_articles, 2)
+    objects_list = paginator.get_page(page_number)
     return render(request, 'blog/articles_list.html',
-                  context={'articles': category_articles, 'title': category.title + ' Category'})
+                  context={'articles': objects_list, 'title': category.title + ' Category'})
