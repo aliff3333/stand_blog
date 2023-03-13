@@ -1,11 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Article, Category
+from .models import Article, Category, Comment
 from django.core.paginator import Paginator
 
 
 def article_details(request, slug):
     article = get_object_or_404(Article, slug=slug)
-    recent_articles = Article.article_manager.published()[:3]
+
+    if request.method == 'POST':
+        body = request.POST.get('body')
+        Comment.objects.create(body=body, article=article, user=request.user, parent=None)
+
     return render(request, 'blog/article_details.html', context={'article': article})
 
 
@@ -25,3 +29,12 @@ def category_details(request, pk=None):
     objects_list = paginator.get_page(page_number)
     return render(request, 'blog/articles_list.html',
                   context={'articles': objects_list, 'title': category.title + ' Category'})
+
+
+def search_articles(request):
+    q = request.GET.get('q')
+    articles = Article.objects.filter(title__icontains=q)
+    page_number = request.GET.get('page')
+    paginator = Paginator(articles, 2)
+    objects_list = paginator.get_page(page_number)
+    return render(request, 'blog/articles_list.html', context={'articles': objects_list, 'title': 'Search Results for ' + q})
